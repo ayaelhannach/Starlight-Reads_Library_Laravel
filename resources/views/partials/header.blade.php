@@ -22,8 +22,12 @@
             </div>
         </ul>
     </nav>
-    <div class="auth-buttons">
-        <a href=""><button class="sign-in">Sign In</button></a>
-        <a href=""><button class="sign-up">Sign Up</button></a>
+    <div>
+            @auth
+                <a href="{{ url('/admin') }}" class="px-4 py-2 bg-blue-500 text-white rounded">Admin Profile</a>
+            @else
+                <a href="{{ route('login') }}" class="px-4 py-2 bg-green-500 text-white rounded">Login</a>
+                <a href="{{ route('register') }}" class="px-4 py-2 bg-blue-500 text-white rounded ml-2">Register</a>
+            @endauth
     </div>
 </header>

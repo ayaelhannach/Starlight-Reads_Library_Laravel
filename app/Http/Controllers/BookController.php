@@ -2,48 +2,68 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Book;
+use App\Models\Favorite;
+use App\Models\Order;
+use App\Models\OrderBook;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BookController extends Controller
 {
-    // App\Http\Controllers\BookController.php
-
     public function index()
     {
-        $books = Book::all(); // Or any other query to fetch books
-        return view('home', compact('books'));
+        $books = DB::table('books')->get();
+        return view('home',['books' => $books]);
     }
-    
 
-public function catalog()
+    public function editDeleteBooks()
 {
-    $books = Book::all();
-    return view('catalog', compact('books'));
+    $books = Book::all(); // Fetch all books
+    return view('adminPage.bookListAdmin', compact('books')); // Pass books to the view
 }
 
 
-    // App\Http\Controllers\BookController.php
-
-public function toggleFavorite($bookId)
-{
-    // Implémentation de la logique de basculement des favoris (exemple)
-    // Vous pouvez utiliser une table pivot pour stocker les favoris d'un utilisateur
-    $user = auth()->user();  // Assurez-vous que l'utilisateur est authentifié
-    $book = Book::find($bookId);
-
-    if ($user->favorites()->toggle($bookId)) {
-        return response()->json(['message' => 'Favoris mis à jour']);
-    }
-
-    return response()->json(['message' => 'Erreur lors de la mise à jour des favoris'], 500);
-}
-
-
-    public function cart()
+    public function deleteBook(Book $book)
     {
-        return view('cart');
+        $book->delete();
+        return redirect()->route('admin.books')->with('success', 'Book deleted successfully!');
+    }
+
+
+    public function addToFavorites($bookId)
+    {
+        $user = Auth::user();
+        $favorite = Favorite::firstOrCreate([
+            'user_id' => $user->id,
+            'book_id' => $bookId,
+        ]);
+
+        return response()->json([
+            'message' => $favorite ? 'Added to favorites' : 'Already in favorites'
+        ]);
+    }
+//     public function show(Book $book)
+// {
+//     return view('books.show', compact('book'));
+// }
+
+    public function addToCart($bookId)
+    {
+        $user = Auth::user();
+        $order = Order::firstOrCreate(['user_id' => $user->id]);
+
+        $orderBook = OrderBook::firstOrCreate([
+            'order_id' => $order->id,
+            'book_id' => $bookId,
+        ], [
+            'quantite' => 1,
+        ]);
+
+        $orderBook->increment('quantite');
+
+        return response()->json([
+            'message' => 'Added to cart'
+        ]);
     }
 }
-

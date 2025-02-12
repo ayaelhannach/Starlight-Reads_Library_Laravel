@@ -5,7 +5,7 @@
         </div>
         <div class="footer-links">
             <a href="{{ route('about') }}" class="footer-link">About Us</a>
-            <a href="{{ route('catalog') }}" class="footer-link">Books List</a>
+            <a href="" class="footer-link">Books List</a>
             <a href="{{ route('contact') }}" class="footer-link">Contact</a>
         </div>
         <div class="footer-socials">

@@ -17,14 +17,24 @@
             </li>
             <li><a href="{{ route('contact') }}">Contact</a></li>
             <div class="favorites-badge">
-                <li><a href="{{ route('favorites') }}"><i class="fas fa-heart"></i></a></li>
-                <li><a href="{{ route('cart') }}"><i class="fas fa-shopping-cart"></i></a></li>
+                <li><a href=""><i class="fas fa-heart"></i></a></li>
+                <li><a href=""><i class="fas fa-shopping-cart"></i></a></li>
             </div>
         </ul>
     </nav>
     <div>
             @auth
                 <a href="{{ url('/admin') }}" class="px-4 py-2 bg-blue-500 text-white rounded">Admin Profile</a>
+                @auth
+                    <a href="{{ route('logout') }}" class="px-4 py-2 bg-blue-500 text-white rounded"
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        Logout
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+                        @csrf
+                    </form>
+                @endauth
+
             @else
                 <a href="{{ route('login') }}" class="px-4 py-2 bg-green-500 text-white rounded">Login</a>
                 <a href="{{ route('register') }}" class="px-4 py-2 bg-blue-500 text-white rounded ml-2">Register</a>

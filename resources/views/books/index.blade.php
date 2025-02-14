@@ -40,6 +40,12 @@
                         <div class="book-actions">
                             <button class="book-button favorite-button">Add to cart</button>
                         </div>
+                        <div class="book-actions">
+                            <form action="{{ route('favorites.store', $book->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="book-button favorite-button">Ajouter aux favoris</button>
+                            </form>
+                        </div>
                     </div>
                 @endforeach
             </div>

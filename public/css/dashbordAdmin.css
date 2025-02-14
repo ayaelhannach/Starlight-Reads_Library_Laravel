@@ -1,7 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
 .dashboard {
     background-color: #f4f4f9;
     padding: 40px;
-    font-family: 'Arial', sans-serif;
+    font-family: 'Poppins', sans-serif;
     color: #333;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -79,7 +81,7 @@
 }
 
 .btn-pdf {
-    background-color: #3498db; /* Elegant blue color */
+    background-color: #036280; /* Elegant blue color */
     color: white;
     padding: 15px 30px;
     border: none;

@@ -16,7 +16,7 @@
     <nav class="navbarNav">
         <ul class="navbar-listNav">
             <div class="logoNav">
-                <img src="{{ asset('images/logolib.jpg') }}" alt="Logo" />
+                <img src="{{ asset('images/logolib.jpeg') }}" alt="Logo" />
                 <h1>Starlight Reads!</h1>
             </div>
 
@@ -26,13 +26,15 @@
             <li class="dropdownNav">
                 <span id="booksDropdown" class="dropdown-toggleNav">Books</span>
                 <ul class="dropdown-menuNav" id="booksMenu">
-                    <li><a href="{{ route('admin.editDeleteBooks') }}">Books List</a></li>
-                    <li><a href="{{ route('admin.addBook') }}">Add Books</a></li>
+                    <li><a href="{{ route('admin.books') }}">Books List</a></li>
+                    <li><a href="{{ route('admin.books.create') }}">Add Books</a></li> 
                 </ul>
             </li>
 
-            <li><a href="{{ route('admin.users') }}">Users</a></li>
-            <li><a href="{{ route('admin.loans') }}">Loans</a></li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('users.index') }}">Users</a>
+            </li>
+            <li><a href="">Loans</a></li>
         </ul>
 
         <div class="profile-sectionNav">
@@ -74,15 +76,23 @@
     </div>
 
     <script>
-        // Book and Users Chart (Bar Chart)
+        document.getElementById('booksDropdown').addEventListener('click', function() {
+            var booksMenu = document.getElementById('booksMenu');
+            if (booksMenu.style.display === 'block') {
+                booksMenu.style.display = 'none';
+            } else {
+                booksMenu.style.display = 'block';
+            }
+        });
+
         const booksUsersChart = new Chart(document.getElementById('booksUsersChart'), {
             type: 'bar',
             data: {
                 labels: ['Books', 'Users'],
                 datasets: [{
                     label: 'Count',
-                    data: [120, 50], // Example data
-                    backgroundColor: ['#0088FE', '#00C49F'],
+                    data: [120, 50], 
+                    backgroundColor: [ '#8326ae' , '#8326ae'],
                 }],
             },
             options: {
@@ -95,15 +105,14 @@
             },
         });
 
-        // Borrowed vs Returns Chart (Pie Chart)
         const borrowedReturnsChart = new Chart(document.getElementById('borrowedReturnsChart'), {
             type: 'pie',
             data: {
                 labels: ['Borrowed', 'Returns'],
                 datasets: [{
                     label: 'Count',
-                    data: [30, 15], // Example data
-                    backgroundColor: ['#FFBB28', '#FF8042'],
+                    data: [30, 15], 
+                    backgroundColor: ['#283dc5', '#6dc4da'],
                 }],
             },
             options: {
@@ -119,7 +128,6 @@
             },
         });
 
-        // User Growth Chart (Line Chart)
         const userGrowthChart = new Chart(document.getElementById('userGrowthChart'), {
             type: 'line',
             data: {
@@ -149,7 +157,5 @@
             },
         });
     </script>
-   
-
 </body>
 </html>

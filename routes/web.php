@@ -17,12 +17,13 @@ use App\Models\Book;
 
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\BookController;
 
 Route::get('/', [BookController::class, 'index'])->name('home');
 
-Route::post('/favorites', [FavoriteController::class, 'store'])->name('favorites.store');
-Route::delete('/favorites/{favorite}', [FavoriteController::class, 'destroy'])->name('favorites.destroy');
-Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
+//Route::post('/favorites', [FavoriteController::class, 'store'])->name('favorites.store');
+//Route::delete('/favorites/{favorite}', [FavoriteController::class, 'destroy'])->name('favorites.destroy');
+//Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
 
 // routes/web.php
 Route::get('/admin/edit-delete-books', [BookController::class, 'editDeleteBooks'])->name('admin.editDeleteBooks');
@@ -85,13 +86,47 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/loans', [AdminController::class, 'loans'])->name('admin.loans');
     
     // Books Management Routes
-    Route::get('/books', [AdminController::class, 'books'])->name('admin.books');
-    Route::get('/add-book', [AdminController::class, 'addBook'])->name('admin.addBook');
-    Route::get('/edit-delete-books', [AdminController::class, 'editDeleteBooks'])->name('admin.editDeleteBooks');
+    //Route::get('/books', [AdminController::class, 'books'])->name('admin.books');
+    //Route::get('/add-book', [AdminController::class, 'addBook'])->name('admin.addBook');
+    //Route::get('/edit-delete-books', [AdminController::class, 'editDeleteBooks'])->name('admin.editDeleteBooks');
 });
-
-
-
 
 Route::get('/admin/generate-pdf', [AdminController::class, 'generatePDF'])->name('admin.generatePDF');
 
+
+
+Route::middleware(['auth'])->group(function () {
+
+Route::post('/favorites/store/{book}', [FavoriteController::class, 'store'])->name('favorites.store');
+
+Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
+Route::delete('/favorites/destroy/{book}', [FavoriteController::class, 'destroy'])->name('favorites.destroy');
+
+
+Route::get('/admin/books', [BookController::class, 'adminBooks'])->name('admin.books');
+
+   
+});
+
+
+Route::get('/books/{book}/edit', [BookController::class, 'edit'])->name('books.edit');
+Route::put('/books/{book}', [BookController::class, 'update'])->name('books.update');
+
+Route::delete('/books/{book}', [BookController::class, 'destroy'])->name('books.destroy');
+
+
+// Afficher le formulaire d'ajout de livre
+Route::get('/admin/books/create', [BookController::class, 'create'])->name('admin.books.create');
+
+// Enregistrer le nouveau livre dans la base de données
+Route::post('/admin/books', [BookController::class, 'store'])->name('admin.books.store');
+
+
+use App\Http\Controllers\UserController;
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/users', [UserController::class, 'index'])->name('users.index'); // Liste des utilisateurs
+    Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit'); // Formulaire de modification
+    Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update'); // Mettre à jour un utilisateur
+    Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy'); // Supprimer un utilisateur
+});

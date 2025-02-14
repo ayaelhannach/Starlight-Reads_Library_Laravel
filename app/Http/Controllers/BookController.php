@@ -8,27 +8,92 @@ use App\Models\Order;
 use App\Models\OrderBook;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+
+
+use Illuminate\Support\Facades\DB;
 
 class BookController extends Controller
 {
     public function index()
     {
-        $books = DB::table('books')->get();
-        return view('home',['books' => $books]);
+        $books = Book::all(); 
+
+    foreach ($books as $book) {
+        $imagePath = public_path('images/books/' . $book->image);
+        if (!File::exists($imagePath) || empty($book->image)) {
+            $book->image = 'placeholder.png';
+        }
     }
 
-    public function editDeleteBooks()
+    return view('home', compact('books'));
+    }
+
+
+    public function adminBooks()
+    {
+        
+        $books = DB::table('books')->get(); 
+        return view('booksAdmin.index', ['books' => $books]);
+    }
+
+    public function edit(Book $book)
 {
-    $books = Book::all(); // Fetch all books
-    return view('adminPage.bookListAdmin', compact('books')); // Pass books to the view
+    return view('booksAdmin.edit', compact('book'));
+}
+
+public function update(Request $request, Book $book)
+{
+    $request->validate([
+        'titre' => 'required|string|max:255',
+        'auteur' => 'required|string|max:255',
+        'genre' => 'required|string|max:255',
+        'prix' => 'required|numeric|min:0',
+        'image' => 'nullable|image|max:2048'
+    ]);
+
+    $book->update($request->only(['titre', 'auteur', 'genre', 'prix']));
+
+    if ($request->hasFile('image')) {
+        $imageName = time().'.'.$request->image->extension();
+        $request->image->move(public_path('images/books'), $imageName);
+        $book->image = $imageName;
+        $book->save();
+    }
+
+    return redirect()->route('admin.books')->with('success', 'Livre modifié avec succès.');
+}
+
+public function create()
+{
+    return view('booksAdmin.create');
 }
 
 
-    public function deleteBook(Book $book)
-    {
-        $book->delete();
-        return redirect()->route('admin.books')->with('success', 'Book deleted successfully!');
+public function store(Request $request)
+{
+     
+     $validatedData = $request->validate([
+        'titre' => 'required|string|max:255',
+        'auteur' => 'required|string|max:255',
+        'genre' => 'required|string|max:255',
+        'prix' => 'required|numeric',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    ]);
+
+    
+    if ($request->hasFile('image')) {
+        $imageName = time().'.'.$request->image->extension();
+        $request->image->move(public_path('images/books'), $imageName);
+        $validatedData['image'] = $imageName;
     }
+
+    
+    Book::create($validatedData);
+
+    
+    return redirect()->route('admin.books')->with('success', 'Livre ajouté avec succès.');
+}
 
 
     public function addToFavorites($bookId)
@@ -43,6 +108,22 @@ class BookController extends Controller
             'message' => $favorite ? 'Added to favorites' : 'Already in favorites'
         ]);
     }
+
+
+    public function destroy(Book $book)
+{
+    
+    if ($book->image && File::exists(public_path('images/books/' . $book->image))) {
+        
+        File::delete(public_path('images/books/' . $book->image));
+    }
+
+    
+    $book->delete();
+
+    
+    return redirect()->route('admin.books')->with('success', 'Livre supprimé avec succès.');
+}
 //     public function show(Book $book)
 // {
 //     return view('books.show', compact('book'));

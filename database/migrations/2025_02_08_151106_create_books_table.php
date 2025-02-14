@@ -18,8 +18,8 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('genre');
             $table->string('image')->nullable();
-            $table->decimal('prix', 8, 2);
-            $table->integer('quantite');
+            $table->decimal('prix', 8, 2)->default(0.00); // Default value for prix
+            $table->integer('quantite')->default(0);    // Default value for quantite
             $table->timestamps();
         });
     }

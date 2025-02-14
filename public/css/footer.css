@@ -1,6 +1,6 @@
 .footer {
-    background-color: #036280;
-    color: white;
+    background-color: rgb(238, 249, 255);
+    color: rgb(0, 0, 0);
     padding: 20px 0;
   }
   
@@ -26,7 +26,7 @@
   }
   
   .footer-link {
-    color: #FF6500;
+    color: rgb(188, 156, 114);
     text-decoration: none;
     font-size: 1rem;
   }
@@ -42,25 +42,25 @@
   }
   
   .footer-social-link {
-    color: #FF6500;
+    color: rgb(188, 156, 114);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.25rem;
+    font-size: 1.4rem;
     transition: color 0.3s ease;
   }
   
   .footer-social-link:hover {
-    color: #FF6500;
+    color: rgb(4, 28, 93);
   }
   
   .footer-contact {
-    font-size: 1rem;
+    font-size: 1.5rem;
     margin-bottom: 15px;
   }
   
   .footer-contact a {
-    color: white;
+    color: rgb(4, 28, 93);
     text-decoration: none;
   }
   

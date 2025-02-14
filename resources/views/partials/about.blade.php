@@ -14,7 +14,7 @@
         </div>
 
         <div class="about-image-container animate-slide-in-right">
-            <img src="{{ asset('images/about1.jpeg') }}" alt="Library" class="about-image">
+            <img src="{{ asset('images/about.png') }}" alt="Library" class="about-image">
         </div>
     </div>
 </div>

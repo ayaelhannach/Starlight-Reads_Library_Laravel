@@ -16,7 +16,7 @@
     <nav class="navbarNav">
         <ul class="navbar-listNav">
             <div class="logoNav">
-                <img src="{{ asset('images/logolib.jpeg') }}" alt="Logo" />
+                <img src="{{ asset('images/logolib.jfif') }}" alt="Logo" />
                 <h1>Starlight Reads!</h1>
             </div>
 

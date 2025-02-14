@@ -1,6 +1,6 @@
 <header class="header">
     <div class="logo">
-        <img src="{{ asset('images/logolib.jpeg') }}" alt="Logo">
+        <img src="{{ asset('images/logolib.jfif') }}" alt="Logo">
         <h1>Starlight Reads!</h1>
     </div>
     <nav>

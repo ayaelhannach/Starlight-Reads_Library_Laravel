@@ -1,5 +1,5 @@
 .searchbar {
-  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(79, 109, 120, 1)), url('../images/background.jpeg');
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(79, 109, 120, 1)), url('../images/about.png');
   background-size: cover;
   background-position: center;
   height: 100vh;
@@ -12,6 +12,7 @@
   font-family: 'Playfair Display', serif;
   font-style: italic;
   animation: fadeIn 1.5s ease-in-out;
+
 }
 
 .search {
